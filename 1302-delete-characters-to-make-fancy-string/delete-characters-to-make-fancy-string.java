@@ -10,9 +10,7 @@ class Solution {
             }else{
                 count=1;
             }
-            if((count<=2 && s.charAt(i)==s.charAt(i-1)) || s.charAt(i)!=s.charAt(i-1) ){
-                ans.append(s.charAt(i));
-            }else if(count>2 && s.charAt(i)!=s.charAt(i-1)){
+            if(count<3){
                 ans.append(s.charAt(i));
             }
 
