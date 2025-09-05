@@ -1,26 +1,28 @@
+import java.util.*;
 class Solution {
+    public void dfs(char[][] grid, int i,int j,int r,int c,int count,boolean visited[][]){
+        if(i<0 || j<0 || i>=r || j>=c || grid[i][j]=='0' || visited[i][j]){
+            return;
+        }
+        visited[i][j] = true;
+        dfs(grid,i+1,j,r,c,count,visited);
+        dfs(grid,i-1,j,r,c,count,visited);
+        dfs(grid,i,j+1,r,c,count,visited);
+        dfs(grid,i,j-1,r,c,count,visited);
+    }
     public int numIslands(char[][] grid) {
         int count = 0;
-        int m = grid.length;
-        int n = grid[0].length;
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(grid[i][j]=='1'){
+        int r = grid.length;
+        int c = grid[0].length;
+        boolean visited[][] = new boolean[r][c];
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                if(grid[i][j]=='1' && !visited[i][j]){
+                    dfs(grid,i,j,r,c,count,visited);
                     count++;
-                    change(grid,i,j,m,n);
                 }
             }
         }
         return count;
-    }
-    private void change(char grid[][],int i, int j,int m,int n){
-        if(i<0 || j<0 || i==m || j==n || grid[i][j]!='1'){
-            return;
-        }
-        grid[i][j]='5';
-        change(grid,i-1,j,m,n);
-        change(grid,i+1,j,m,n);
-        change(grid,i,j-1,m,n);
-        change(grid,i,j+1,m,n);
     }
 }
