@@ -13,7 +13,10 @@ class Solution {
         }
 
         // Adjust k
+        if(count<k){
+
         k = k % count;
+        }
         if (k == 0) return head;
 
         // Dummy node for ease
