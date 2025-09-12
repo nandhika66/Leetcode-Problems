@@ -1,9 +1,13 @@
 class Solution {
     public boolean doesAliceWin(String s) {
-        return s
-            .chars()
-            .anyMatch(c -> {
-                return "aeiou".indexOf(c) != -1;
-            });
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            switch (c) {
+                case 'a','e','i','o','u':
+                    return true;
+            }
+        }
+
+        return false;
     }
 }
