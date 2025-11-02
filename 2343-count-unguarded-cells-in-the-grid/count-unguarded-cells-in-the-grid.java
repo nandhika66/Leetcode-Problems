@@ -1,35 +1,34 @@
 class Solution {
-    public void dfs(int x, int y, int dx, int dy, int dp[][], int m, int n){
-        if(x<0 || y<0 || x>=m || y>=n || dp[x][y]==1 ||dp[x][y]==3){
-            return;
-        }
-        if(dp[x][y]==0){
-            dp[x][y] = 2;
-        }
-        dfs(x + dx, y + dy, dx, dy, dp, m, n);
-    }
     public int countUnguarded(int m, int n, int[][] guards, int[][] walls) {
-        int count =0;
-        int dp[][] = new int[m][n];
-        for(int i=0;i<walls.length;i++){
-            dp[walls[i][0]][walls[i][1]] = 1;
-        }
-        for(int i=0;i<guards.length;i++){
-            dp[guards[i][0]][guards[i][1]] = 3;
-        }
+        int[][] grid = new int[m][n]; // 0 empty, 1 wall, 2 guard, 3 guarded
+
+        for (int[] w : walls) grid[w[0]][w[1]] = 1;
+        for (int[] g : guards) grid[g[0]][g[1]] = 2;
+
+        // For each guard, mark line of sight
         for (int[] g : guards) {
-            dfs(g[0] + 1, g[1], 1, 0, dp, m, n);  
-            dfs(g[0] - 1, g[1], -1, 0, dp, m, n); // up
-            dfs(g[0], g[1] + 1, 0, 1, dp, m, n);  // right
-            dfs(g[0], g[1] - 1, 0, -1, dp, m, n); // left
+            int x = g[0], y = g[1];
+
+            // up
+            for (int i = x - 1; i >= 0 && grid[i][y] != 1 && grid[i][y] != 2; i--)
+                grid[i][y] = 3;
+            // down
+            for (int i = x + 1; i < m && grid[i][y] != 1 && grid[i][y] != 2; i++)
+                grid[i][y] = 3;
+            // left
+            for (int j = y - 1; j >= 0 && grid[x][j] != 1 && grid[x][j] != 2; j--)
+                grid[x][j] = 3;
+            // right
+            for (int j = y + 1; j < n && grid[x][j] != 1 && grid[x][j] != 2; j++)
+                grid[x][j] = 3;
         }
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(dp[i][j]==0){
+
+        int count = 0;
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
+                if (grid[i][j] == 0)
                     count++;
-                }
-            }
-        }
+
         return count;
     }
 }
