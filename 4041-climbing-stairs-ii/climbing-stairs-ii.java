@@ -10,9 +10,9 @@ class Solution {
             return dp[n];
         }
         return dp[n] = Math.min(
-        Math.min((solve(n-1,dp,costs)+costs[n-1]+(n-(n-1))*(n-(n-1))),
-        (solve(n-2,dp,costs)+costs[n-1]+(n-(n-2))*(n-(n-2)))),
-        (solve(n-3,dp,costs)+costs[n-1]+(n-(n-3))*(n-(n-3)))
+        Math.min((solve(n-1,dp,costs)+costs[n-1]+1),
+        (solve(n-2,dp,costs)+costs[n-1]+4)),
+        (solve(n-3,dp,costs)+costs[n-1]+9)
         );
     }
     public int climbStairs(int n, int[] costs) {
