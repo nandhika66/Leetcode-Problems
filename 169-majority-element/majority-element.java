@@ -1,21 +1,18 @@
 class Solution {
     public int majorityElement(int[] nums) {
-        int count = 1;
-        Arrays.sort(nums);
-        int max =0;
-        int fin=0;
-        for(int i=0;i<nums.length-1;i++){
-            if(nums[i]==nums[i+1]){
-                count++;
+        int ans=0;
+        int major = 0;
+        for(int i=0;i<nums.length;i++){
+            if(major==0){
+                ans= nums[i];
+            }
+            if(ans==nums[i]){
+                major++;
             }else{
-                if(count>max){
-                    max=count;
-                    fin=nums[i];
-                    count=1;
-                }
+                major--;
             }
         }
-        if(count>max) fin = nums[nums.length-1];
-        return fin;
+        return ans;
     }
 }
+//here since the majority element occurs more than n/2 times, the non major element will cancel out and major cannot cancel exactly
