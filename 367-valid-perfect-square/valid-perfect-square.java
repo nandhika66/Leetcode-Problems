@@ -18,3 +18,4 @@ class Solution {
         return false;
     }
 }
+//sqrt always lies in n/2. Finding mid and checking square of mid meets num.
