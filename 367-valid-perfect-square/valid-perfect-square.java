@@ -1,14 +1,20 @@
 class Solution {
     public boolean isPerfectSquare(int num) {
-        int i = 1;
-        while(num>0){
-            num -= i;
-            i+=2;
-        }
-        if(num==0){
+        if(num==1){
             return true;
+        }
+        int l = 1;
+        int r = num/2;
+        while(l<=r){
+            long mid = (l+r)/2;
+            if(mid*mid==num){
+                return true;
+            }else if(mid*mid>num){
+                r=(int) mid-1;
+            }else{
+                l=(int) mid+1;
+            }
         }
         return false;
     }
 }
-//sq nums format: 1+3+5..(odd nums)=n^2 - so subtacting all odd nums, then checking if it cancels out
