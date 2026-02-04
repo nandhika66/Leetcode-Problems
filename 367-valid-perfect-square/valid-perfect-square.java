@@ -11,3 +11,4 @@ class Solution {
         return false;
     }
 }
+//sq nums format: 1+3+5..(odd nums)=n^2 - so subtacting all odd nums, then checking if it cancels out
