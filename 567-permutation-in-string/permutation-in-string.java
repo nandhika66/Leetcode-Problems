@@ -1,28 +1,29 @@
-import java.util.*;
 class Solution {
     public boolean checkInclusion(String s1, String s2) {
-        HashMap<Character, Integer> map = new HashMap<>();
-        HashMap<Character, Integer> s2freq = new HashMap<>();
-        for(int i=0;i<s1.length();i++){
-            char ch = s1.charAt(i);
-            map.put(ch, map.getOrDefault(ch,0)+1);
+        int l=0;
+        int freq[] = new int[26];
+        int size = s1.length();
+        for(int i=0;i<size;i++){
+            freq[s1.charAt(i)-'a']++;
         }
-        int left = 0, right = 0 , windowSize = s1.length();
-        while(right < s2.length()){
-            char ch = s2.charAt(right);
-            s2freq.put(ch, s2freq.getOrDefault(ch,0)+1);
-            if(right-left+1 == windowSize){
-                if(map.equals(s2freq)){
-                    return true;
-                }
-                s2freq.put(s2.charAt(left), s2freq.get(s2.charAt(left))-1);
-                if(s2freq.get(s2.charAt(left)) == 0){
-                    s2freq.remove(s2.charAt(left));
-                }
-                left++;
+        for(int r=0;r<s2.length();r++){
+            freq[s2.charAt(r)-'a']--;
+            if(r-l+1 > size){
+                freq[s2.charAt(l)-'a']++;
+                l++;
             }
-            right++;
+            if(check(freq)){
+                return true;
+            }
         }
         return false;
+    }
+    public boolean check(int freq[]){
+        for(int i=0;i<26;i++){
+            if(freq[i]!=0){
+                return false;
+            }
+        }
+        return true;
     }
 }
