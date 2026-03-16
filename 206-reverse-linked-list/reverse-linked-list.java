@@ -20,6 +20,6 @@ class Solution {
             cur = safe;
         }
         head = prev;
-        return head;
+        return head;    
     }
 }
