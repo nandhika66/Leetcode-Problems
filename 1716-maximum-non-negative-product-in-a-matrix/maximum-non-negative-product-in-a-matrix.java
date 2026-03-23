@@ -1,39 +1,36 @@
 class Solution {
-
     public int maxProductPath(int[][] grid) {
-        final int MOD = 1000000000 + 7;
+        final int mod = 1000000000 + 7;
         int m = grid.length;
         int n = grid[0].length;
-        long[][] maxgt = new long[m][n];
-        long[][] minlt = new long[m][n];
-
-        maxgt[0][0] = minlt[0][0] = grid[0][0];
-        for (int i = 1; i < n; i++) {
-            maxgt[0][i] = minlt[0][i] = maxgt[0][i - 1] * grid[0][i];
+        long dpMin[][] = new long[m][n];
+        long dpMax[][] = new long[m][n];
+        dpMin[0][0] = grid[0][0];
+        dpMax[0][0] = grid[0][0];
+        for(int i=1;i<m;i++){ // for first col, to check the next cols
+            dpMin[i][0] = dpMin[i-1][0] * grid[i][0];
+            dpMax[i][0] = dpMin[i][0]; // because there is only one value prior to it
         }
-        for (int i = 1; i < m; i++) {
-            maxgt[i][0] = minlt[i][0] = maxgt[i - 1][0] * grid[i][0];
+        for(int i=1;i<n;i++){ // for first row
+            dpMin[0][i] = dpMin[0][i-1] * grid[0][i];
+            dpMax[0][i] = dpMin[0][i];
         }
-
-        for (int i = 1; i < m; i++) {
-            for (int j = 1; j < n; j++) {
+        for(int i=1;i<m;i++){
+            for(int j=1;j<n;j++){
                 if (grid[i][j] >= 0) {
-                    maxgt[i][j] =
-                        Math.max(maxgt[i][j - 1], maxgt[i - 1][j]) * grid[i][j];
-                    minlt[i][j] =
-                        Math.min(minlt[i][j - 1], minlt[i - 1][j]) * grid[i][j];
+                    dpMax[i][j] =
+                        Math.max(dpMax[i][j - 1], dpMax[i - 1][j]) * grid[i][j];
+                    dpMin[i][j] =
+                        Math.min(dpMin[i][j - 1], dpMin[i - 1][j]) * grid[i][j];
                 } else {
-                    maxgt[i][j] =
-                        Math.min(minlt[i][j - 1], minlt[i - 1][j]) * grid[i][j];
-                    minlt[i][j] =
-                        Math.max(maxgt[i][j - 1], maxgt[i - 1][j]) * grid[i][j];
+                    dpMax[i][j] =
+                        Math.min(dpMin[i][j - 1], dpMin[i - 1][j]) * grid[i][j];
+                    dpMin[i][j] =
+                        Math.max(dpMax[i][j - 1], dpMax[i - 1][j]) * grid[i][j];
                 }
             }
         }
-        if (maxgt[m - 1][n - 1] < 0) {
-            return -1;
-        } else {
-            return (int) (maxgt[m - 1][n - 1] % MOD);
-        }
+        if(dpMax[m-1][n-1]< 0) return -1;
+        return (int) (dpMax[m-1][n-1] % mod);
     }
 }
